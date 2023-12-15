@@ -18,22 +18,26 @@ X_test, y_test = X[split:], y[split:]
 print("\n------------Traininf Model ------------")
 # instantiate model
 # model = RandomForestRegressor()
-model = LinearRegression(positive=True)
+model = LinearRegression(positive=True,
+                         fit_intercept=True)
 model.fit(X_train, y_train.values.ravel())
 pred = model.predict(X_test)
 # print(pred)
-print(pred.shape)
-print(y_test.shape)
+# print(pred)
+# print(y_test.shape)
 # print(f"Accuracy : {acc}")
 
 mae_val = mae(y_test, pred)
+print(f"R2 : {model.score(X_test, y_test)}")
 print(f"MAE : {mae_val}")
+# print(model.get_params(deep=True))
 
 # Extracting Feature Importance
 
 print("\n------------Calculating FE------------")
-ft = pd.Series(model.feature_importances_, index = X_train.columns)
-print(ft)
+# ft = pd.Series(model.coef_, index = X_train.columns)
+ft = model.coef_
+print(ft, model.intercept_)
 # ft.nlargest(25).plot(kind='barh', figsize=(10,10))
 
 
